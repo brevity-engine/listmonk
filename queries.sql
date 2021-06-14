@@ -80,22 +80,22 @@ SELECT id from sub;
 
 -- name: upsert-subscriber
 -- Upserts a subscriber where existing subscribers get their names and attributes overwritten.
--- If $6 = true, update values, otherwise, skip.
+-- If $7 = true, update values, otherwise, skip.
 WITH sub AS (
     INSERT INTO subscribers as s (uuid, email, name, attribs, status)
     VALUES($1, $2, $3, $4, 'enabled')
     ON CONFLICT (email)
     DO UPDATE SET
-        name=(CASE WHEN $6 THEN $3 ELSE s.name END),
-        attribs=(CASE WHEN $6 THEN $4 ELSE s.attribs END),
+        name=(CASE WHEN $7 THEN $3 ELSE s.name END),
+        attribs=(CASE WHEN $7 THEN $4 ELSE s.attribs END),
         updated_at=NOW()
     RETURNING uuid, id
 ),
 subs AS (
-    INSERT INTO subscriber_lists (subscriber_id, list_id)
-    VALUES((SELECT id FROM sub), UNNEST($5::INT[]))
+    INSERT INTO subscriber_lists (subscriber_id, list_id, status)
+    VALUES((SELECT id FROM sub), UNNEST($5::INT[]), $6)
     ON CONFLICT (subscriber_id, list_id) DO UPDATE
-    SET updated_at=NOW()
+    SET updated_at=NOW(), status=(CASE WHEN $7 THEN $6 ELSE subscriber_lists.status END)
 )
 SELECT uuid, id from sub;
 
@@ -242,7 +242,7 @@ SELECT COUNT(*) OVER () AS total, subscribers.* FROM subscribers
     )
     WHERE subscriber_lists.list_id = ALL($1::INT[])
     %s
-    ORDER BY %s %s OFFSET $2 LIMIT $3;
+    ORDER BY %s %s OFFSET $2 LIMIT (CASE WHEN $3 = 0 THEN NULL ELSE $3 END);
 
 -- name: query-subscribers-for-export
 -- raw: true
@@ -258,7 +258,7 @@ SELECT s.id, s.uuid, s.email, s.name, s.status, s.attribs, s.created_at, s.updat
     )
     WHERE sl.list_id = ALL($1::INT[]) AND id > $2
     %s
-    ORDER BY s.id ASC LIMIT $3;
+    ORDER BY s.id ASC LIMIT (CASE WHEN $3 = 0 THEN NULL ELSE $3 END);
 
 -- name: query-subscribers-template
 -- raw: true
@@ -321,7 +321,7 @@ SELECT * FROM lists WHERE (CASE WHEN $1 = '' THEN 1=1 ELSE type=$1::list_type EN
 -- name: query-lists
 WITH ls AS (
 	SELECT COUNT(*) OVER () AS total, lists.* FROM lists
-    WHERE ($1 = 0 OR id = $1) OFFSET $2 LIMIT $3
+    WHERE ($1 = 0 OR id = $1) OFFSET $2 LIMIT (CASE WHEN $3 = 0 THEN NULL ELSE $3 END)
 ),
 counts AS (
 	SELECT COUNT(*) as subscriber_count, list_id FROM subscriber_lists WHERE status != 'unsubscribed' GROUP BY list_id
@@ -417,7 +417,7 @@ FROM campaigns c
 WHERE ($1 = 0 OR id = $1)
     AND status=ANY(CASE WHEN ARRAY_LENGTH($2::campaign_status[], 1) != 0 THEN $2::campaign_status[] ELSE ARRAY[status] END)
     AND ($3 = '' OR CONCAT(name, subject) ILIKE $3)
-ORDER BY %s %s OFFSET $4 LIMIT $5;
+ORDER BY %s %s OFFSET $4 LIMIT (CASE WHEN $5 = 0 THEN NULL ELSE $5 END);
 
 -- name: get-campaign
 SELECT campaigns.*,
