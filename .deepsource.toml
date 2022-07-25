@@ -1,15 +1,20 @@
 version = 1
 
 [[analyzers]]
+name = "docker"
+enabled = true
+
+[[analyzers]]
 name = "go"
 enabled = true
 
   [analyzers.meta]
   import_root = "github.com/brevity-engine/listmonk"
 
-[[analyzers]]
-name = "javascript"
+[[transformers]]
+name = "gofumpt"
 enabled = true
 
-  [analyzers.meta]
-  plugins = ["vue"]
+[[transformers]]
+name = "gofmt"
+enabled = true
