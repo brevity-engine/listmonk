@@ -26,9 +26,7 @@ const (
 		<p>Here is a link to <a href="https://listmonk.app" target="_blank">listmonk</a>.</p>`
 )
 
-var (
-	regexpTplTag = regexp.MustCompile(`{{(\s+)?template\s+?"content"(\s+)?\.(\s+)?}}`)
-)
+var regexpTplTag = regexp.MustCompile(`{{(\s+)?template\s+?"content"(\s+)?\.(\s+)?}}`)
 
 // handleGetTemplates handles retrieval of templates.
 func handleGetTemplates(c echo.Context) error {

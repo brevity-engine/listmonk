@@ -253,8 +253,10 @@ loop:
 		}
 
 		for _, r := range out {
-			if err = wr.Write([]string{r.UUID, r.Email, r.Name, r.Attribs, r.Status,
-				r.CreatedAt.Time.String(), r.UpdatedAt.Time.String()}); err != nil {
+			if err = wr.Write([]string{
+				r.UUID, r.Email, r.Name, r.Attribs, r.Status,
+				r.CreatedAt.Time.String(), r.UpdatedAt.Time.String(),
+			}); err != nil {
 				app.log.Printf("error streaming CSV export: %v", err)
 				break loop
 			}

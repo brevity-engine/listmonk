@@ -310,7 +310,6 @@ func handleUpdateCampaign(c echo.Context) error {
 
 	if id < 1 {
 		return echo.NewHTTPError(http.StatusBadRequest, app.i18n.T("globals.messages.invalidID"))
-
 	}
 
 	var cm models.Campaign

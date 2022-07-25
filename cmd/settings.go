@@ -82,9 +82,7 @@ type settings struct {
 	} `json:"messengers"`
 }
 
-var (
-	reAlphaNum = regexp.MustCompile(`[^a-z0-9\-]`)
-)
+var reAlphaNum = regexp.MustCompile(`[^a-z0-9\-]`)
 
 // handleGetSettings returns settings from the DB.
 func handleGetSettings(c echo.Context) error {
