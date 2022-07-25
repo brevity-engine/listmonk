@@ -4,6 +4,7 @@ package postback
 
 import (
 	json "encoding/json"
+
 	models "github.com/knadh/listmonk/models"
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
@@ -86,6 +87,7 @@ func easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback(in *j
 		in.Consumed()
 	}
 }
+
 func easyjsonDf11841fEncodeGithubComKnadhListmonkInternalMessengerPostback(out *jwriter.Writer, in postback) {
 	out.RawByte('{')
 	first := true
@@ -156,6 +158,7 @@ func (v *postback) UnmarshalJSON(data []byte) error {
 func (v *postback) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback(l, v)
 }
+
 func easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback2(in *jlexer.Lexer, out *campaign) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -212,6 +215,7 @@ func easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback2(in *
 		in.Consumed()
 	}
 }
+
 func easyjsonDf11841fEncodeGithubComKnadhListmonkInternalMessengerPostback2(out *jwriter.Writer, in campaign) {
 	out.RawByte('{')
 	first := true
@@ -244,6 +248,7 @@ func easyjsonDf11841fEncodeGithubComKnadhListmonkInternalMessengerPostback2(out 
 	}
 	out.RawByte('}')
 }
+
 func easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback1(in *jlexer.Lexer, out *recipient) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -303,6 +308,7 @@ func easyjsonDf11841fDecodeGithubComKnadhListmonkInternalMessengerPostback1(in *
 		in.Consumed()
 	}
 }
+
 func easyjsonDf11841fEncodeGithubComKnadhListmonkInternalMessengerPostback1(out *jwriter.Writer, in recipient) {
 	out.RawByte('{')
 	first := true

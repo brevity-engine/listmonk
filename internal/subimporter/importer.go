@@ -117,7 +117,8 @@ var (
 	csvHeaders = map[string]bool{
 		"email":      true,
 		"name":       true,
-		"attributes": true}
+		"attributes": true,
+	}
 
 	regexCleanStr = regexp.MustCompile("[[:^ascii:]]")
 )
@@ -141,9 +142,11 @@ func (im *Importer) NewSession(opt SessionOpt) (*Session, error) {
 	}
 
 	im.Lock()
-	im.status = Status{Status: StatusImporting,
+	im.status = Status{
+		Status: StatusImporting,
 		Name:   opt.Filename,
-		logBuf: bytes.NewBuffer(nil)}
+		logBuf: bytes.NewBuffer(nil),
+	}
 	im.Unlock()
 
 	s := &Session{

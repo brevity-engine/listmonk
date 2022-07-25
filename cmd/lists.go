@@ -20,9 +20,7 @@ type listsWrap struct {
 	Page    int `json:"page"`
 }
 
-var (
-	listQuerySortFields = []string{"name", "type", "subscriber_count", "created_at", "updated_at"}
-)
+var listQuerySortFields = []string{"name", "type", "subscriber_count", "created_at", "updated_at"}
 
 // handleGetLists handles retrieval of lists.
 func handleGetLists(c echo.Context) error {

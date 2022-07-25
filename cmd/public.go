@@ -78,9 +78,7 @@ type subForm struct {
 	SubListUUIDs []string `form:"l"`
 }
 
-var (
-	pixelPNG = drawTransparentImage(3, 14)
-)
+var pixelPNG = drawTransparentImage(3, 14)
 
 // Render executes and renders a template for echo.
 func (t *tplRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
@@ -258,9 +256,7 @@ func handleOptinPage(c echo.Context) error {
 // handleSubscriptionFormPage handles subscription requests coming from public
 // HTML subscription forms.
 func handleSubscriptionFormPage(c echo.Context) error {
-	var (
-		app = c.Get("app").(*App)
-	)
+	app := c.Get("app").(*App)
 
 	if !app.constants.EnablePublicSubPage {
 		return c.Render(http.StatusNotFound, tplMessage,
@@ -308,7 +304,6 @@ func handleSubscriptionForm(c echo.Context) error {
 		return c.Render(http.StatusOK, tplMessage,
 			makeMsgTpl(app.i18n.T("public.errorTitle"), "",
 				app.i18n.T("public.invalidFeature")))
-
 	}
 
 	if len(req.SubListUUIDs) == 0 {

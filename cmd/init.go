@@ -318,7 +318,6 @@ func initCampaignManager(q *Queries, cs *constants, app *App) *manager.Manager {
 		SlidingWindowDuration: ko.Duration("app.message_sliding_window_duration"),
 		SlidingWindowRate:     ko.Int("app.message_sliding_window_rate"),
 	}, newManagerDB(q), campNotifCB, app.i18n, lo)
-
 }
 
 // initImporter initializes the bulk subscriber importer.
@@ -471,7 +470,7 @@ func initNotifTemplates(path string, fs stuffbin.FileSystem, i *i18n.I18n, cs *c
 // initHTTPServer sets up and runs the app's main HTTP server and blocks forever.
 func initHTTPServer(app *App) *echo.Echo {
 	// Initialize the HTTP server.
-	var srv = echo.New()
+	srv := echo.New()
 	srv.HideBanner = true
 
 	// Register app (*App) to be injected into all HTTP handlers.
@@ -486,7 +485,8 @@ func initHTTPServer(app *App) *echo.Echo {
 	tpl, err := stuffbin.ParseTemplatesGlob(template.FuncMap{
 		"L": func() *i18n.I18n {
 			return app.i18n
-		}}, app.fs, "/public/templates/*.html")
+		},
+	}, app.fs, "/public/templates/*.html")
 	if err != nil {
 		lo.Fatalf("error parsing public templates: %v", err)
 	}
@@ -494,7 +494,8 @@ func initHTTPServer(app *App) *echo.Echo {
 		templates:  tpl,
 		RootURL:    app.constants.RootURL,
 		LogoURL:    app.constants.LogoURL,
-		FaviconURL: app.constants.FaviconURL}
+		FaviconURL: app.constants.FaviconURL,
+	}
 
 	// Initialize the static file server.
 	fSrv := app.fs.FileServer()

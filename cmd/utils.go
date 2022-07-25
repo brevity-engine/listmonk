@@ -11,9 +11,7 @@ import (
 	"github.com/lib/pq"
 )
 
-var (
-	tagRegexpSpaces = regexp.MustCompile(`[\s]+`)
-)
+var tagRegexpSpaces = regexp.MustCompile(`[\s]+`)
 
 // inArray checks if a string is present in a list of strings.
 func inArray(val string, vals []string) (ok bool) {
@@ -101,7 +99,7 @@ func parseStringIDs(s []string) ([]int64, error) {
 // generateRandomString generates a cryptographically random, alphanumeric string of length n.
 func generateRandomString(n int) (string, error) {
 	const dictionary = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-	var bytes = make([]byte, n)
+	bytes := make([]byte, n)
 
 	if _, err := rand.Read(bytes); err != nil {
 		return "", err
